@@ -1,7 +1,7 @@
 # Maze
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/hacdias/maze?style=flat-square)](https://goreportcard.com/report/github.com/hacdias/maze)
-[![Documentation](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://pkg.go.dev/github.com/hacdias/maze)
+[![Go Report Card](https://goreportcard.com/badge/go.hacdias.com/maze?style=flat-square)](https://goreportcard.com/report/go.hacdias.com/maze)
+[![Documentation](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://pkg.go.dev/go.hacdias.com/maze)
 
 This repository contains a set of tools to get locations (reverse search) for Geo URIs, location names, and airports. Special thanks to:
 
@@ -12,7 +12,7 @@ Without which this tool could not exist.
 
 ## Usage
 
-Check https://pkg.go.dev/github.com/hacdias/maze.
+Check https://pkg.go.dev/go.hacdias.com/maze.
 
 ## License
 

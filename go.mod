@@ -1,4 +1,4 @@
-module github.com/hacdias/maze
+module go.hacdias.com/maze
 
 go 1.20
 
