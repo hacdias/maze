@@ -10,10 +10,20 @@ This repository contains a set of tools to get locations (reverse search) for Ge
 
 Without which this tool could not exist.
 
+## Install
+
+```
+go get go.hacdias.com/maze@latest
+```
+
 ## Usage
 
-Check https://pkg.go.dev/go.hacdias.com/maze.
+Check the [documentation](https://pkg.go.dev/go.hacdias.com/maze).
+
+## Contributing
+
+Feel free to open an issue or a pull request.
 
 ## License
 
-MIT © Henrique Dias
+[MIT License](LICENSE) © [Henrique Dias](https://hacdias.com)
