@@ -59,7 +59,7 @@ func (l *Maze) aviowikiSearch(query string) (*Location, error) {
 	f := avioRes.Content[0]
 
 	loc := &Location{
-		Name:      query,
+		Name:      f.Name,
 		Latitude:  f.Coordinates.Latitude,
 		Longitude: f.Coordinates.Longitude,
 		Country:   f.Country.Name,
