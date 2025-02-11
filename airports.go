@@ -64,6 +64,8 @@ func (l *Maze) aviowikiSearch(query string) (*Location, error) {
 		Longitude: f.Coordinates.Longitude,
 		Country:   f.Country.Name,
 		Locality:  strings.TrimSpace(strings.Split(f.City, ",")[0]),
+		IATA:      f.IATA,
+		ICAO:      f.ICAO,
 	}
 
 	return loc, nil

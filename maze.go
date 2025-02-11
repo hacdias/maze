@@ -14,6 +14,8 @@ type Location struct {
 	Locality  string  `json:"locality,omitempty" yaml:"locality,omitempty" csv:"locality"`
 	Region    string  `json:"region,omitempty" yaml:"region,omitempty" csv:"region"`
 	Country   string  `json:"country,omitempty" yaml:"country,omitempty" csv:"country"`
+	ICAO      string  `json:"icao,omitempty" yaml:"icao,omitempty" csv:"icao"`
+	IATA      string  `json:"iata,omitempty" yaml:"iata,omitempty" csv:"iata"`
 }
 
 // Distance returns the distance, in meters, between l1 and l2.
