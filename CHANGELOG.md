@@ -19,6 +19,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [0.4.0]
+
+### Added
+
+- When searching for an airport, the fields `IATA` and `ICAO` will be filled.
+
+### Changed
+
+- When searching for an airport, the name of the airport will be used in the returned `Location`, instead of the search parameter.
+
 ## [0.3.0]
 
 ### Changed
