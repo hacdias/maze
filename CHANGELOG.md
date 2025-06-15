@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Adding a geo URI representation for the `Location` struct, which can be used to store it as a string.
+
 ### Changed
 
 ### Deprecated
