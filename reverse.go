@@ -19,7 +19,9 @@ func (l *Maze) photonReverse(lang string, lon, lat float64) (*Location, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer res.Body.Close()
+	defer func() {
+		_ = res.Body.Close()
+	}()
 
 	data, err := io.ReadAll(res.Body)
 	if err != nil {
