@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added `CountryCode` and `PostalCode` to the `Location` struct.
-
 ### Changed
 
 ### Deprecated
@@ -20,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [0.6.0]
+
+### Added
+
+- Added `CountryCode` and `PostalCode` to the `Location` struct.
 
 ## [0.5.0]
 
