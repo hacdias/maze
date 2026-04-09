@@ -19,6 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [0.6.1]
+
+### Changed
+
+- Preserve geo URI `name` when calling `ReverseGeoURI`.
+
 ## [0.6.0]
 
 ### Added

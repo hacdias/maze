@@ -28,7 +28,16 @@ func (l *Maze) ReverseGeoURI(lang, geoUri string) (*Location, error) {
 		return nil, err
 	}
 
-	return l.Reverse(lang, geo.Longitude, geo.Latitude)
+	loc, err := l.Reverse(lang, geo.Longitude, geo.Latitude)
+	if err != nil {
+		return nil, err
+	}
+
+	if name, ok := geo.Parameters["name"]; ok && len(name) > 0 && loc.Name == "" {
+		loc.Name = name[0]
+	}
+
+	return loc, nil
 }
 
 func (l *Maze) Search(lang, query string) (*Location, error) {
