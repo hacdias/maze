@@ -27,6 +27,7 @@ type aviowikiCoordinates struct {
 }
 
 type aviowikiCountry struct {
+	ISO2 string `json:"iso2"`
 	Name string `json:"name"`
 }
 
@@ -61,13 +62,14 @@ func (l *Maze) aviowikiSearch(query string) (*Location, error) {
 	f := avioRes.Content[0]
 
 	loc := &Location{
-		Name:      f.Name,
-		Latitude:  f.Coordinates.Latitude,
-		Longitude: f.Coordinates.Longitude,
-		Country:   f.Country.Name,
-		Locality:  strings.TrimSpace(strings.Split(f.City, ",")[0]),
-		IATA:      f.IATA,
-		ICAO:      f.ICAO,
+		Name:        f.Name,
+		Latitude:    f.Coordinates.Latitude,
+		Longitude:   f.Coordinates.Longitude,
+		Country:     f.Country.Name,
+		CountryCode: f.Country.ISO2,
+		Locality:    strings.TrimSpace(strings.Split(f.City, ",")[0]),
+		IATA:        f.IATA,
+		ICAO:        f.ICAO,
 	}
 
 	return loc, nil

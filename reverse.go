@@ -41,16 +41,20 @@ func (l *Maze) photonReverse(lang string, lon, lat float64) (*Location, error) {
 	city := f.PropertyMustString("city", "")
 	state := f.PropertyMustString("state", f.PropertyMustString("county", ""))
 	country := f.PropertyMustString("country", "")
+	countryCode := f.PropertyMustString("countrycode", "")
+	postalCode := f.PropertyMustString("postcode", "")
 
 	if city == "" && state == "" && country == "" {
 		return nil, errors.New("no useful information found")
 	}
 
 	return &Location{
-		Latitude:  lat,
-		Longitude: lon,
-		Locality:  city,
-		Region:    state,
-		Country:   country,
+		Latitude:    lat,
+		Longitude:   lon,
+		Locality:    city,
+		Region:      state,
+		Country:     country,
+		CountryCode: countryCode,
+		PostalCode:  postalCode,
 	}, nil
 }

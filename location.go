@@ -3,15 +3,17 @@ package maze
 import "math"
 
 type Location struct {
-	Latitude  float64 `json:"latitude,omitempty" yaml:"latitude,omitempty" csv:"latitude"`
-	Longitude float64 `json:"longitude,omitempty" yaml:"longitude,omitempty" csv:"longitude"`
-	Altitude  float64 `json:"altitude,omitempty" yaml:"altitude,omitempty" csv:"altitude"`
-	Name      string  `json:"name,omitempty" yaml:"name,omitempty" csv:"name"`
-	Locality  string  `json:"locality,omitempty" yaml:"locality,omitempty" csv:"locality"`
-	Region    string  `json:"region,omitempty" yaml:"region,omitempty" csv:"region"`
-	Country   string  `json:"country,omitempty" yaml:"country,omitempty" csv:"country"`
-	ICAO      string  `json:"icao,omitempty" yaml:"icao,omitempty" csv:"icao"`
-	IATA      string  `json:"iata,omitempty" yaml:"iata,omitempty" csv:"iata"`
+	Latitude    float64 `json:"latitude,omitempty" yaml:"latitude,omitempty" csv:"latitude"`
+	Longitude   float64 `json:"longitude,omitempty" yaml:"longitude,omitempty" csv:"longitude"`
+	Altitude    float64 `json:"altitude,omitempty" yaml:"altitude,omitempty" csv:"altitude"`
+	Name        string  `json:"name,omitempty" yaml:"name,omitempty" csv:"name"`
+	Locality    string  `json:"locality,omitempty" yaml:"locality,omitempty" csv:"locality"`
+	Region      string  `json:"region,omitempty" yaml:"region,omitempty" csv:"region"`
+	Country     string  `json:"country,omitempty" yaml:"country,omitempty" csv:"country"`
+	CountryCode string  `json:"countryCode,omitempty" yaml:"countryCode,omitempty" csv:"countryCode"`
+	PostalCode  string  `json:"postalCode,omitempty" yaml:"postalCode,omitempty" csv:"postalCode"`
+	ICAO        string  `json:"icao,omitempty" yaml:"icao,omitempty" csv:"icao"`
+	IATA        string  `json:"iata,omitempty" yaml:"iata,omitempty" csv:"iata"`
 }
 
 // ParseLocation parses a geo URI string and returns a [Location] struct. Query
