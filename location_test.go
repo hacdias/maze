@@ -1,9 +1,51 @@
 package maze
 
 import (
+	"math"
 	"reflect"
 	"testing"
 )
+
+func TestDistance(t *testing.T) {
+	t.Parallel()
+
+	type testCase struct {
+		name     string
+		l1, l2   *Location
+		distance float64
+	}
+	tests := []testCase{
+		{
+			name:     "Same point",
+			l1:       &Location{Latitude: 38.7, Longitude: -9.1},
+			l2:       &Location{Latitude: 38.7, Longitude: -9.1},
+			distance: 0,
+		},
+		{
+			name:     "Quarter of the equator",
+			l1:       &Location{Latitude: 0, Longitude: 0},
+			l2:       &Location{Latitude: 0, Longitude: 90},
+			distance: math.Pi / 2 * 6371000,
+		},
+		{
+			name:     "Opposite points",
+			l1:       &Location{Latitude: -42.15305933728451, Longitude: -119.19357816989165},
+			l2:       &Location{Latitude: 42.15305933728451, Longitude: 60.80642183010835},
+			distance: math.Pi * 6371000,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
+			d := tc.l1.Distance(tc.l2)
+			if math.IsNaN(d) || math.Abs(d-tc.distance) > 1 {
+				t.Errorf("expected %v, got %v", tc.distance, d)
+			}
+		})
+	}
+}
 
 func TestLocation(t *testing.T) {
 	t.Parallel()
