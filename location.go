@@ -24,32 +24,19 @@ func ParseLocation(geoUri string) (*Location, error) {
 		return nil, err
 	}
 
-	loc := &Location{
-		Latitude:  geo.Latitude,
-		Longitude: geo.Longitude,
-		Altitude:  geo.Altitude,
-	}
-
-	if name, ok := geo.Query["name"]; ok && len(name) > 0 {
-		loc.Name = name[0]
-	}
-	if locality, ok := geo.Query["locality"]; ok && len(locality) > 0 {
-		loc.Locality = locality[0]
-	}
-	if region, ok := geo.Query["region"]; ok && len(region) > 0 {
-		loc.Region = region[0]
-	}
-	if country, ok := geo.Query["country"]; ok && len(country) > 0 {
-		loc.Country = country[0]
-	}
-	if icao, ok := geo.Query["icao"]; ok && len(icao) > 0 {
-		loc.ICAO = icao[0]
-	}
-	if iata, ok := geo.Query["iata"]; ok && len(iata) > 0 {
-		loc.IATA = iata[0]
-	}
-
-	return loc, nil
+	return &Location{
+		Latitude:    geo.Latitude,
+		Longitude:   geo.Longitude,
+		Altitude:    geo.Altitude,
+		Name:        geo.Query.Get("name"),
+		Locality:    geo.Query.Get("locality"),
+		Region:      geo.Query.Get("region"),
+		Country:     geo.Query.Get("country"),
+		CountryCode: geo.Query.Get("countryCode"),
+		PostalCode:  geo.Query.Get("postalCode"),
+		ICAO:        geo.Query.Get("icao"),
+		IATA:        geo.Query.Get("iata"),
+	}, nil
 }
 
 // Distance returns the distance, in meters, between l1 and l2.
@@ -94,6 +81,12 @@ func (l *Location) String() string {
 	}
 	if l.Country != "" {
 		geo.Query["country"] = []string{l.Country}
+	}
+	if l.CountryCode != "" {
+		geo.Query["countryCode"] = []string{l.CountryCode}
+	}
+	if l.PostalCode != "" {
+		geo.Query["postalCode"] = []string{l.PostalCode}
 	}
 	if l.ICAO != "" {
 		geo.Query["icao"] = []string{l.ICAO}

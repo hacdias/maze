@@ -34,13 +34,15 @@ func TestLocation(t *testing.T) {
 		{
 			name: "With Custom Fields",
 			location: &Location{
-				Latitude:  37.786971,
-				Longitude: -122.399677,
-				Altitude:  -123.456,
-				Name:      "Test Location",
-				Locality:  "San Francisco",
+				Latitude:    37.786971,
+				Longitude:   -122.399677,
+				Altitude:    -123.456,
+				Name:        "Test Location",
+				Locality:    "San Francisco",
+				CountryCode: "US",
+				PostalCode:  "94103",
 			},
-			uri: "geo:37.786971,-122.399677,-123.456?locality=San+Francisco&name=Test+Location",
+			uri: "geo:37.786971,-122.399677,-123.456?countryCode=US&locality=San+Francisco&name=Test+Location&postalCode=94103",
 		},
 	}
 
