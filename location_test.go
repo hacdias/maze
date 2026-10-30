@@ -81,10 +81,14 @@ func TestLocation(t *testing.T) {
 				Altitude:    -123.456,
 				Name:        "Test Location",
 				Locality:    "San Francisco",
+				Region:      "California",
+				Country:     "United States",
 				CountryCode: "US",
 				PostalCode:  "94103",
+				ICAO:        "KSFO",
+				IATA:        "SFO",
 			},
-			uri: "geo:37.786971,-122.399677,-123.456?countryCode=US&locality=San+Francisco&name=Test+Location&postalCode=94103",
+			uri: "geo:37.786971,-122.399677,-123.456?country=United+States&countryCode=US&iata=SFO&icao=KSFO&locality=San+Francisco&name=Test+Location&postalCode=94103&region=California",
 		},
 	}
 

@@ -26,17 +26,12 @@ func ParseLocation(geoUri string) (*Location, error) {
 	}
 
 	loc := &Location{
-		Latitude:    geo.Latitude,
-		Longitude:   geo.Longitude,
-		Altitude:    geo.Altitude,
-		Name:        geo.Query.Get("name"),
-		Locality:    geo.Query.Get("locality"),
-		Region:      geo.Query.Get("region"),
-		Country:     geo.Query.Get("country"),
-		CountryCode: geo.Query.Get("countryCode"),
-		PostalCode:  geo.Query.Get("postalCode"),
-		ICAO:        geo.Query.Get("icao"),
-		IATA:        geo.Query.Get("iata"),
+		Latitude:  geo.Latitude,
+		Longitude: geo.Longitude,
+		Altitude:  geo.Altitude,
+	}
+	for k, f := range loc.queryFields() {
+		*f = geo.Query.Get(k)
 	}
 
 	if name := geo.Parameters["name"]; loc.Name == "" && len(name) > 0 {
@@ -78,30 +73,25 @@ func (l *Location) String() string {
 		Query:     map[string][]string{},
 	}
 
-	if l.Name != "" {
-		geo.Query["name"] = []string{l.Name}
-	}
-	if l.Locality != "" {
-		geo.Query["locality"] = []string{l.Locality}
-	}
-	if l.Region != "" {
-		geo.Query["region"] = []string{l.Region}
-	}
-	if l.Country != "" {
-		geo.Query["country"] = []string{l.Country}
-	}
-	if l.CountryCode != "" {
-		geo.Query["countryCode"] = []string{l.CountryCode}
-	}
-	if l.PostalCode != "" {
-		geo.Query["postalCode"] = []string{l.PostalCode}
-	}
-	if l.ICAO != "" {
-		geo.Query["icao"] = []string{l.ICAO}
-	}
-	if l.IATA != "" {
-		geo.Query["iata"] = []string{l.IATA}
+	for k, f := range l.queryFields() {
+		if *f != "" {
+			geo.Query.Set(k, *f)
+		}
 	}
 
 	return geo.String()
+}
+
+// queryFields maps the geo URI query keys to the fields of l.
+func (l *Location) queryFields() map[string]*string {
+	return map[string]*string{
+		"name":        &l.Name,
+		"locality":    &l.Locality,
+		"region":      &l.Region,
+		"country":     &l.Country,
+		"countryCode": &l.CountryCode,
+		"postalCode":  &l.PostalCode,
+		"icao":        &l.ICAO,
+		"iata":        &l.IATA,
+	}
 }
