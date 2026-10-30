@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Dependency on `github.com/paulmach/go.geojson`.
+
 ### Fixed
 
 - `Search` now fills `CountryCode` and `PostalCode`, like `Reverse`.

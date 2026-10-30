@@ -1,13 +1,34 @@
 package maze
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"net/url"
-
-	geojson "github.com/paulmach/go.geojson"
 )
+
+type photonResponse struct {
+	Features []photonFeature `json:"features"`
+}
+
+type photonFeature struct {
+	Geometry   photonGeometry   `json:"geometry"`
+	Properties photonProperties `json:"properties"`
+}
+
+type photonGeometry struct {
+	Coordinates []float64 `json:"coordinates"`
+}
+
+type photonProperties struct {
+	City        string `json:"city"`
+	State       string `json:"state"`
+	County      string `json:"county"`
+	Country     string `json:"country"`
+	CountryCode string `json:"countrycode"`
+	PostCode    string `json:"postcode"`
+}
 
 func (l *Maze) Reverse(lang string, lon, lat float64) (*Location, error) {
 	uv := url.Values{}
@@ -54,7 +75,8 @@ func (l *Maze) photon(endpoint, lang string, uv url.Values) (*Location, error) {
 		return nil, err
 	}
 
-	fc, err := geojson.UnmarshalFeatureCollection(data)
+	var fc photonResponse
+	err = json.Unmarshal(data, &fc)
 	if err != nil {
 		return nil, err
 	}
@@ -63,22 +85,25 @@ func (l *Maze) photon(endpoint, lang string, uv url.Values) (*Location, error) {
 		return nil, errors.New("features missing from request")
 	}
 
-	f := fc.Features[0]
+	p := fc.Features[0].Properties
 	loc := &Location{
-		Locality:    f.PropertyMustString("city", ""),
-		Region:      f.PropertyMustString("state", f.PropertyMustString("county", "")),
-		Country:     f.PropertyMustString("country", ""),
-		CountryCode: f.PropertyMustString("countrycode", ""),
-		PostalCode:  f.PropertyMustString("postcode", ""),
+		Locality:    p.City,
+		Region:      p.State,
+		Country:     p.Country,
+		CountryCode: p.CountryCode,
+		PostalCode:  p.PostCode,
+	}
+	if loc.Region == "" {
+		loc.Region = p.County
 	}
 
 	if loc.Locality == "" && loc.Region == "" && loc.Country == "" {
 		return nil, errors.New("no useful information found")
 	}
 
-	if f.Geometry != nil && len(f.Geometry.Point) == 2 {
-		loc.Longitude = f.Geometry.Point[0]
-		loc.Latitude = f.Geometry.Point[1]
+	if c := fc.Features[0].Geometry.Coordinates; len(c) == 2 {
+		loc.Longitude = c[0]
+		loc.Latitude = c[1]
 	}
 
 	return loc, nil
