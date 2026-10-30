@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Reverse` and `Search` no longer fail when `lang` is empty.
 - `Location.String` and `ParseLocation` now keep `CountryCode` and `PostalCode`.
 - `ReverseGeoURI` now keeps a `?name=` query parameter, and `ParseLocation` now reads a `;name=` geo URI parameter.
+- `Location.Distance` no longer returns NaN for some opposite points.
 
 ### Security
 

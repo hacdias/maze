@@ -61,7 +61,8 @@ func (l1 *Location) Distance(l2 *Location) float64 {
 	dlat := lat2 - lat1
 
 	a := math.Pow(math.Sin(dlat/2), 2) + math.Cos(lat1)*math.Cos(lat2)*math.Pow(math.Sin(dlon/2), 2)
-	c := 2 * math.Asin(math.Sqrt(a))
+	// Rounding can push a slightly above 1 for opposite points.
+	c := 2 * math.Asin(math.Min(1, math.Sqrt(a)))
 	r := float64(6371)
 
 	return c * r * 1000
