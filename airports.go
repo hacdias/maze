@@ -47,7 +47,8 @@ func (l *Maze) Airport(query string) (*Location, error) {
 	}()
 
 	if res.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("aviowiki: unexpected status %d", res.StatusCode)
+		b, _ := io.ReadAll(io.LimitReader(res.Body, 200))
+		return nil, fmt.Errorf("aviowiki: unexpected status %d: %s", res.StatusCode, b)
 	}
 
 	data, err := io.ReadAll(res.Body)

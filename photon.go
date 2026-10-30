@@ -79,7 +79,8 @@ func (l *Maze) photon(endpoint, lang string, uv url.Values) (*Location, error) {
 	}()
 
 	if res.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("photon: unexpected status %d", res.StatusCode)
+		b, _ := io.ReadAll(io.LimitReader(res.Body, 200))
+		return nil, fmt.Errorf("photon: unexpected status %d: %s", res.StatusCode, b)
 	}
 
 	data, err := io.ReadAll(res.Body)
