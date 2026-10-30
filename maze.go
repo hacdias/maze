@@ -22,19 +22,16 @@ func NewMaze(client *http.Client) *Maze {
 }
 
 func (l *Maze) ReverseGeoURI(lang, geoUri string) (*Location, error) {
-	geo, err := ParseGeoURI(geoUri)
+	p, err := ParseLocation(geoUri)
 	if err != nil {
 		return nil, err
 	}
 
-	loc, err := l.Reverse(lang, geo.Longitude, geo.Latitude)
+	loc, err := l.Reverse(lang, p.Longitude, p.Latitude)
 	if err != nil {
 		return nil, err
 	}
 
-	if name, ok := geo.Parameters["name"]; ok && len(name) > 0 && loc.Name == "" {
-		loc.Name = name[0]
-	}
-
+	loc.Name = p.Name
 	return loc, nil
 }
