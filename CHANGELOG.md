@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Upgraded to Go 1.27.
+- `NewMaze(nil)` now uses an HTTP client with a 10 second timeout, instead of none.
 
 ### Deprecated
 

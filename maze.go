@@ -2,15 +2,18 @@ package maze
 
 import (
 	"net/http"
+	"time"
 )
 
 type Maze struct {
 	httpClient *http.Client
 }
 
+// NewMaze returns a [Maze] that uses client. If client is nil, a client with a
+// 10 second timeout is used.
 func NewMaze(client *http.Client) *Maze {
 	if client == nil {
-		client = &http.Client{}
+		client = &http.Client{Timeout: 10 * time.Second}
 	}
 
 	return &Maze{
