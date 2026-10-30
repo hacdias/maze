@@ -31,7 +31,7 @@ type aviowikiCountry struct {
 	Name string `json:"name"`
 }
 
-func (l *Maze) aviowikiSearch(query string) (*Location, error) {
+func (l *Maze) Airport(query string) (*Location, error) {
 	uv := url.Values{}
 	uv.Set("query", query)
 	uv.Set("size", "1")

@@ -9,7 +9,7 @@ import (
 	geojson "github.com/paulmach/go.geojson"
 )
 
-func (l *Maze) photonReverse(lang string, lon, lat float64) (*Location, error) {
+func (l *Maze) Reverse(lang string, lon, lat float64) (*Location, error) {
 	uv := url.Values{}
 	uv.Set("lat", fmt.Sprintf("%v", lat))
 	uv.Set("lon", fmt.Sprintf("%v", lon))

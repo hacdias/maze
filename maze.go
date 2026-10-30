@@ -18,10 +18,6 @@ func NewMaze(client *http.Client) *Maze {
 	}
 }
 
-func (l *Maze) Reverse(lang string, lon, lat float64) (*Location, error) {
-	return l.photonReverse(lang, lon, lat)
-}
-
 func (l *Maze) ReverseGeoURI(lang, geoUri string) (*Location, error) {
 	geo, err := ParseGeoURI(geoUri)
 	if err != nil {
@@ -38,12 +34,4 @@ func (l *Maze) ReverseGeoURI(lang, geoUri string) (*Location, error) {
 	}
 
 	return loc, nil
-}
-
-func (l *Maze) Search(lang, query string) (*Location, error) {
-	return l.photonSearch(lang, query)
-}
-
-func (l *Maze) Airport(query string) (*Location, error) {
-	return l.aviowikiSearch(query)
 }
