@@ -120,7 +120,7 @@ func parseParameters(parameters string) (url.Values, error) {
 		if strings.Contains(value, "=") {
 			return nil, fmt.Errorf("invalid equal separator in value")
 		}
-		key, err := url.QueryUnescape(key)
+		key, err := url.PathUnescape(key)
 		if err != nil {
 			return nil, err
 		}
@@ -130,7 +130,7 @@ func parseParameters(parameters string) (url.Values, error) {
 			}
 			continue
 		}
-		value, err = url.QueryUnescape(value)
+		value, err = url.PathUnescape(value)
 		if err != nil {
 			return nil, err
 		}
@@ -147,7 +147,7 @@ func encodeParameters(p map[string][]string) string {
 	var buf strings.Builder
 	for _, k := range slices.Sorted(maps.Keys(p)) {
 		vs := p[k]
-		keyEscaped := url.QueryEscape(k)
+		keyEscaped := escapeParameter(k)
 
 		// If there are no values for the key, we still need to write the key.
 		if len(vs) == 0 {
@@ -165,8 +165,14 @@ func encodeParameters(p map[string][]string) string {
 			}
 			buf.WriteString(keyEscaped)
 			buf.WriteByte('=')
-			buf.WriteString(url.QueryEscape(v))
+			buf.WriteString(escapeParameter(v))
 		}
 	}
 	return buf.String()
+}
+
+// escapeParameter escapes s for use in a geo URI parameter. Unlike in queries,
+// "+" is not a space in RFC 5870, so spaces are written as "%20".
+func escapeParameter(s string) string {
+	return strings.ReplaceAll(url.QueryEscape(s), "+", "%20")
 }
