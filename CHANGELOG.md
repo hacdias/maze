@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - `Search` now fills `CountryCode` and `PostalCode`, like `Reverse`.
+- HTTP errors from Photon and aviowiki are now reported as such, instead of as missing results.
 
 ### Security
 

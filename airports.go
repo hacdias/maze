@@ -3,7 +3,9 @@ package maze
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
+	"net/http"
 	"net/url"
 	"strings"
 )
@@ -43,6 +45,10 @@ func (l *Maze) Airport(query string) (*Location, error) {
 	defer func() {
 		_ = res.Body.Close()
 	}()
+
+	if res.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("aviowiki: unexpected status %d", res.StatusCode)
+	}
 
 	data, err := io.ReadAll(res.Body)
 	if err != nil {
