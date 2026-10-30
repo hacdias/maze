@@ -129,6 +129,19 @@ func TestParseGeoURI(t *testing.T) {
 				},
 			},
 			{
+				name:    "Plus and space in parameter",
+				input:   "geo:51.5258325,-0.1359825;name=C++%20code",
+				encoded: "geo:51.5258325,-0.1359825;name=C%2B%2B%20code",
+				output: &GeoURI{
+					Latitude:  51.5258325,
+					Longitude: -0.1359825,
+					Parameters: map[string][]string{
+						"name": {"C++ code"},
+					},
+					Query: url.Values{},
+				},
+			},
+			{
 				name:    "Query parameters",
 				input:   "geo:51.5258325,-0.1359825,0.0;name=a;name=b;name=c?a=b&c=d",
 				encoded: "geo:51.5258325,-0.1359825;name=a;name=b;name=c?a=b&c=d",

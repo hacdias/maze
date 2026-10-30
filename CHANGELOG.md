@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `ReverseGeoURI` now keeps a `?name=` query parameter, and `ParseLocation` now reads a `;name=` geo URI parameter.
 - `Location.Distance` no longer returns NaN for some opposite points.
 - A geo URI parameter without value no longer drops earlier values of the same parameter.
+- A `+` in a geo URI parameter is now read as a plus, not a space, as per RFC 5870. Spaces in parameters are now written as `%20`.
 
 ### Security
 
