@@ -33,5 +33,6 @@ func (l *Maze) ReverseGeoURI(lang, geoUri string) (*Location, error) {
 	}
 
 	loc.Name = p.Name
+	loc.Altitude = p.Altitude
 	return loc, nil
 }
