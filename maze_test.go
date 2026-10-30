@@ -95,15 +95,17 @@ func TestSearch(t *testing.T) {
 		{
 			name: "First feature",
 			body: `{"features":[
-				{"geometry":{"type":"Point","coordinates":[-9.1,38.7]},"properties":{"city":"Lisboa","country":"Portugal"}},
+				{"geometry":{"type":"Point","coordinates":[-9.1,38.7]},"properties":{"city":"Lisboa","country":"Portugal","countrycode":"PT","postcode":"1000-001"}},
 				{"geometry":{"type":"Point","coordinates":[-8.6,41.1]},"properties":{"city":"Porto","country":"Portugal"}}
 			]}`,
 			location: &Location{
-				Latitude:  38.7,
-				Longitude: -9.1,
-				Name:      "lisbon",
-				Locality:  "Lisboa",
-				Country:   "Portugal",
+				Latitude:    38.7,
+				Longitude:   -9.1,
+				Name:        "lisbon",
+				Locality:    "Lisboa",
+				Country:     "Portugal",
+				CountryCode: "PT",
+				PostalCode:  "1000-001",
 			},
 		},
 		{
