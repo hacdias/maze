@@ -31,6 +31,8 @@ type photonProperties struct {
 	PostCode    string `json:"postcode"`
 }
 
+// Reverse returns the [Location] at the given coordinates, using Photon. lang
+// must be empty or a language Photon supports: "default", "de", "en" or "fr".
 func (l *Maze) Reverse(lang string, lon, lat float64) (*Location, error) {
 	uv := url.Values{}
 	uv.Set("lat", fmt.Sprintf("%v", lat))
@@ -46,6 +48,8 @@ func (l *Maze) Reverse(lang string, lon, lat float64) (*Location, error) {
 	return loc, nil
 }
 
+// Search returns the first [Location] that matches query, using Photon. lang is
+// as in [Maze.Reverse].
 func (l *Maze) Search(lang, query string) (*Location, error) {
 	uv := url.Values{}
 	uv.Set("q", query)
@@ -61,7 +65,10 @@ func (l *Maze) Search(lang, query string) (*Location, error) {
 
 // photon calls a Photon endpoint and returns its first feature as a [Location].
 func (l *Maze) photon(endpoint, lang string, uv url.Values) (*Location, error) {
-	uv.Set("lang", lang)
+	// Photon rejects an empty lang.
+	if lang != "" {
+		uv.Set("lang", lang)
+	}
 
 	res, err := l.httpClient.Get(endpoint + "?" + uv.Encode())
 	if err != nil {
