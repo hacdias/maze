@@ -1,11 +1,7 @@
 package maze
 
 import (
-	"encoding/json"
 	"errors"
-	"fmt"
-	"io"
-	"net/http"
 	"net/url"
 	"strings"
 )
@@ -38,26 +34,8 @@ func (l *Maze) Airport(query string) (*Location, error) {
 	uv.Set("query", query)
 	uv.Set("size", "1")
 
-	res, err := l.httpClient.Get("https://api.aviowiki.com/free/airports/search?" + uv.Encode())
-	if err != nil {
-		return nil, err
-	}
-	defer func() {
-		_ = res.Body.Close()
-	}()
-
-	if res.StatusCode != http.StatusOK {
-		b, _ := io.ReadAll(io.LimitReader(res.Body, 200))
-		return nil, fmt.Errorf("aviowiki: unexpected status %d: %s", res.StatusCode, b)
-	}
-
-	data, err := io.ReadAll(res.Body)
-	if err != nil {
-		return nil, err
-	}
-
 	var avioRes *aviowikiResponse
-	err = json.Unmarshal(data, &avioRes)
+	err := l.getJSON("aviowiki", "https://api.aviowiki.com/free/airports/search?"+uv.Encode(), &avioRes)
 	if err != nil {
 		return nil, err
 	}

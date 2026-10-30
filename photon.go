@@ -1,11 +1,8 @@
 package maze
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
-	"net/http"
 	"net/url"
 )
 
@@ -72,26 +69,8 @@ func (l *Maze) photon(endpoint, lang string, uv url.Values) (*Location, error) {
 		uv.Set("lang", lang)
 	}
 
-	res, err := l.httpClient.Get(endpoint + "?" + uv.Encode())
-	if err != nil {
-		return nil, err
-	}
-	defer func() {
-		_ = res.Body.Close()
-	}()
-
-	if res.StatusCode != http.StatusOK {
-		b, _ := io.ReadAll(io.LimitReader(res.Body, 200))
-		return nil, fmt.Errorf("photon: unexpected status %d: %s", res.StatusCode, b)
-	}
-
-	data, err := io.ReadAll(res.Body)
-	if err != nil {
-		return nil, err
-	}
-
 	var fc photonResponse
-	err = json.Unmarshal(data, &fc)
+	err := l.getJSON("photon", endpoint+"?"+uv.Encode(), &fc)
 	if err != nil {
 		return nil, err
 	}
