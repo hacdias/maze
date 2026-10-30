@@ -8,20 +8,23 @@ import (
 	"testing"
 )
 
-// fakeTransport answers every request with body, without using the network.
+// fakeTransport answers every request with status and body, without using the
+// network.
 type fakeTransport struct {
-	body string
+	status int
+	body   string
 }
 
 func (f *fakeTransport) RoundTrip(*http.Request) (*http.Response, error) {
 	return &http.Response{
-		StatusCode: http.StatusOK,
+		StatusCode: f.status,
 		Body:       io.NopCloser(strings.NewReader(f.body)),
 	}, nil
 }
 
 type lookupTestCase struct {
 	name     string
+	status   int // 200 when zero
 	body     string
 	location *Location // nil when an error is expected
 }
@@ -31,7 +34,12 @@ func runLookupTests(t *testing.T, tests []lookupTestCase, lookup func(*Maze) (*L
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
 
-			loc, err := lookup(NewMaze(&http.Client{Transport: &fakeTransport{body: tc.body}}))
+			status := tc.status
+			if status == 0 {
+				status = http.StatusOK
+			}
+
+			loc, err := lookup(NewMaze(&http.Client{Transport: &fakeTransport{status: status, body: tc.body}}))
 			if tc.location == nil {
 				if err == nil {
 					t.Errorf("expected error, got %+v", *loc)
@@ -83,6 +91,11 @@ func TestReverse(t *testing.T) {
 			name: "No useful information",
 			body: `{"features":[{"properties":{"name":"Atlantic Ocean"}}]}`,
 		},
+		{
+			name:   "Server error",
+			status: http.StatusServiceUnavailable,
+			body:   `{"features":[{"properties":{"city":"Lisboa"}}]}`,
+		},
 	}, func(m *Maze) (*Location, error) {
 		return m.Reverse("en", -9.1, 38.7)
 	})
@@ -111,6 +124,11 @@ func TestSearch(t *testing.T) {
 		{
 			name: "No features",
 			body: `{"features":[]}`,
+		},
+		{
+			name:   "Bad request",
+			status: http.StatusBadRequest,
+			body:   `{"features":[{"properties":{"city":"Lisboa"}}]}`,
 		},
 	}, func(m *Maze) (*Location, error) {
 		return m.Search("en", "lisbon")
@@ -142,6 +160,11 @@ func TestAirport(t *testing.T) {
 		{
 			name: "Null",
 			body: `null`,
+		},
+		{
+			name:   "Rate limited",
+			status: http.StatusTooManyRequests,
+			body:   `{"content":[{"name":"Lisbon Humberto Delgado"}]}`,
 		},
 	}, func(m *Maze) (*Location, error) {
 		return m.Airport("LIS")

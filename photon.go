@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net/http"
 	"net/url"
 )
 
@@ -69,6 +70,10 @@ func (l *Maze) photon(endpoint, lang string, uv url.Values) (*Location, error) {
 	defer func() {
 		_ = res.Body.Close()
 	}()
+
+	if res.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("photon: unexpected status %d", res.StatusCode)
+	}
 
 	data, err := io.ReadAll(res.Body)
 	if err != nil {
