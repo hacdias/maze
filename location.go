@@ -18,13 +18,14 @@ type Location struct {
 
 // ParseLocation parses a geo URI string and returns a [Location] struct. Query
 // parameters are used to fill in additional fields, such as name, locality, etc.
+// If there is no name query parameter, the name geo URI parameter is used.
 func ParseLocation(geoUri string) (*Location, error) {
 	geo, err := ParseGeoURI(geoUri)
 	if err != nil {
 		return nil, err
 	}
 
-	return &Location{
+	loc := &Location{
 		Latitude:    geo.Latitude,
 		Longitude:   geo.Longitude,
 		Altitude:    geo.Altitude,
@@ -36,7 +37,13 @@ func ParseLocation(geoUri string) (*Location, error) {
 		PostalCode:  geo.Query.Get("postalCode"),
 		ICAO:        geo.Query.Get("icao"),
 		IATA:        geo.Query.Get("iata"),
-	}, nil
+	}
+
+	if name := geo.Parameters["name"]; loc.Name == "" && len(name) > 0 {
+		loc.Name = name[0]
+	}
+
+	return loc, nil
 }
 
 // Distance returns the distance, in meters, between l1 and l2.

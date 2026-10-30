@@ -104,6 +104,25 @@ func TestReverse(t *testing.T) {
 	})
 }
 
+func TestReverseGeoURI(t *testing.T) {
+	t.Parallel()
+
+	for _, uri := range []string{"geo:38.7,-9.1?name=Home", "geo:38.7,-9.1;name=Home"} {
+		t.Run(uri, func(t *testing.T) {
+			t.Parallel()
+
+			ft := &fakeTransport{status: http.StatusOK, body: `{"features":[{"properties":{"city":"Lisboa"}}]}`}
+			loc, err := NewMaze(&http.Client{Transport: ft}).ReverseGeoURI("en", uri)
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if loc.Name != "Home" {
+				t.Errorf("expected name Home, got %q", loc.Name)
+			}
+		})
+	}
+}
+
 func TestSearch(t *testing.T) {
 	t.Parallel()
 
