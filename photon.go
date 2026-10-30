@@ -23,6 +23,8 @@ type photonGeometry struct {
 }
 
 type photonProperties struct {
+	Type        string `json:"type"`
+	Name        string `json:"name"`
 	City        string `json:"city"`
 	State       string `json:"state"`
 	County      string `json:"county"`
@@ -108,6 +110,18 @@ func (l *Maze) photon(endpoint, lang string, uv url.Values) (*Location, error) {
 	}
 	if loc.Region == "" {
 		loc.Region = p.County
+	}
+
+	// A city, county or state does not repeat its own name in those fields.
+	switch p.Type {
+	case "city":
+		if loc.Locality == "" {
+			loc.Locality = p.Name
+		}
+	case "county", "state":
+		if loc.Region == "" {
+			loc.Region = p.Name
+		}
 	}
 
 	if loc.Locality == "" && loc.Region == "" && loc.Country == "" {

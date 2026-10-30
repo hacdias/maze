@@ -147,6 +147,24 @@ func TestSearch(t *testing.T) {
 			},
 		},
 		{
+			name: "City",
+			body: `{"features":[{"properties":{"type":"city","name":"Lisboa","country":"Portugal"}}]}`,
+			location: &Location{
+				Name:     "lisbon",
+				Locality: "Lisboa",
+				Country:  "Portugal",
+			},
+		},
+		{
+			name: "County",
+			body: `{"features":[{"properties":{"type":"county","name":"Lisboa","country":"Portugal"}}]}`,
+			location: &Location{
+				Name:    "lisbon",
+				Region:  "Lisboa",
+				Country: "Portugal",
+			},
+		},
+		{
 			name: "No features",
 			body: `{"features":[]}`,
 		},
