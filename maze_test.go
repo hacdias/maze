@@ -3,6 +3,7 @@ package maze
 import (
 	"io"
 	"net/http"
+	"net/url"
 	"reflect"
 	"strings"
 	"testing"
@@ -13,9 +14,11 @@ import (
 type fakeTransport struct {
 	status int
 	body   string
+	query  url.Values // query of the last request
 }
 
-func (f *fakeTransport) RoundTrip(*http.Request) (*http.Response, error) {
+func (f *fakeTransport) RoundTrip(r *http.Request) (*http.Response, error) {
+	f.query = r.URL.Query()
 	return &http.Response{
 		StatusCode: f.status,
 		Body:       io.NopCloser(strings.NewReader(f.body)),
@@ -133,6 +136,19 @@ func TestSearch(t *testing.T) {
 	}, func(m *Maze) (*Location, error) {
 		return m.Search("en", "lisbon")
 	})
+}
+
+func TestSearchEmptyLang(t *testing.T) {
+	t.Parallel()
+
+	ft := &fakeTransport{status: http.StatusOK, body: `{"features":[{"properties":{"city":"Lisboa"}}]}`}
+	_, err := NewMaze(&http.Client{Transport: ft}).Search("", "lisbon")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if ft.query.Has("lang") {
+		t.Errorf("expected no lang, got %q", ft.query.Get("lang"))
+	}
 }
 
 func TestAirport(t *testing.T) {
