@@ -107,7 +107,7 @@ func TestReverse(t *testing.T) {
 func TestReverseGeoURI(t *testing.T) {
 	t.Parallel()
 
-	for _, uri := range []string{"geo:38.7,-9.1?name=Home", "geo:38.7,-9.1;name=Home"} {
+	for _, uri := range []string{"geo:38.7,-9.1,120?name=Home", "geo:38.7,-9.1,120;name=Home"} {
 		t.Run(uri, func(t *testing.T) {
 			t.Parallel()
 
@@ -118,6 +118,9 @@ func TestReverseGeoURI(t *testing.T) {
 			}
 			if loc.Name != "Home" {
 				t.Errorf("expected name Home, got %q", loc.Name)
+			}
+			if loc.Altitude != 120 {
+				t.Errorf("expected altitude 120, got %v", loc.Altitude)
 			}
 		})
 	}
