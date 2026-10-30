@@ -125,7 +125,9 @@ func parseParameters(parameters string) (url.Values, error) {
 			return nil, err
 		}
 		if value == "" {
-			p[key] = []string{}
+			if _, ok := p[key]; !ok {
+				p[key] = []string{}
+			}
 			continue
 		}
 		value, err = url.QueryUnescape(value)

@@ -116,6 +116,19 @@ func TestParseGeoURI(t *testing.T) {
 				},
 			},
 			{
+				name:    "Parameter with and without value",
+				input:   "geo:51.5258325,-0.1359825;name=a;name",
+				encoded: "geo:51.5258325,-0.1359825;name=a",
+				output: &GeoURI{
+					Latitude:  51.5258325,
+					Longitude: -0.1359825,
+					Parameters: map[string][]string{
+						"name": {"a"},
+					},
+					Query: url.Values{},
+				},
+			},
+			{
 				name:    "Query parameters",
 				input:   "geo:51.5258325,-0.1359825,0.0;name=a;name=b;name=c?a=b&c=d",
 				encoded: "geo:51.5258325,-0.1359825;name=a;name=b;name=c?a=b&c=d",
