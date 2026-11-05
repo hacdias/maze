@@ -3,9 +3,9 @@ package maze
 import "math"
 
 type Location struct {
-	Latitude    float64 `json:"latitude,omitempty" yaml:"latitude,omitempty" csv:"latitude"`
-	Longitude   float64 `json:"longitude,omitempty" yaml:"longitude,omitempty" csv:"longitude"`
-	Altitude    float64 `json:"altitude,omitempty" yaml:"altitude,omitempty" csv:"altitude"`
+	Latitude    float64 `json:"latitude,omitzero" yaml:"latitude,omitempty" csv:"latitude"`
+	Longitude   float64 `json:"longitude,omitzero" yaml:"longitude,omitempty" csv:"longitude"`
+	Altitude    float64 `json:"altitude,omitzero" yaml:"altitude,omitempty" csv:"altitude"`
 	Name        string  `json:"name,omitempty" yaml:"name,omitempty" csv:"name"`
 	Locality    string  `json:"locality,omitempty" yaml:"locality,omitempty" csv:"locality"`
 	Region      string  `json:"region,omitempty" yaml:"region,omitempty" csv:"region"`

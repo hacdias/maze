@@ -1,10 +1,23 @@
 package maze
 
 import (
+	"encoding/json/v2"
 	"math"
 	"reflect"
 	"testing"
 )
+
+func TestLocationJSONOmitsZeroFields(t *testing.T) {
+	t.Parallel()
+
+	b, err := json.Marshal(Location{Latitude: 38.7})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if expected := `{"latitude":38.7}`; string(b) != expected {
+		t.Errorf("expected %s, got %s", expected, b)
+	}
+}
 
 func TestDistance(t *testing.T) {
 	t.Parallel()

@@ -1,7 +1,7 @@
 package maze
 
 import (
-	"encoding/json"
+	"encoding/json/v2"
 	"fmt"
 	"io"
 	"net/http"
@@ -56,5 +56,5 @@ func (l *Maze) getJSON(service, u string, v any) error {
 		return fmt.Errorf("%s: unexpected status %d: %s", service, res.StatusCode, b)
 	}
 
-	return json.NewDecoder(res.Body).Decode(v)
+	return json.UnmarshalRead(res.Body, v)
 }
